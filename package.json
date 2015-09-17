@@ -1,0 +1,15 @@
+{
+  "name": "session-calendar",
+  "version": "1.0.0",
+  "description": "Export uWaterloo info sessions to iCal format ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sanchit Gera",
+  "license": "MIT",
+  "dependencies": {
+    "icalendar": "^0.7.1",
+    "uwapi": "^1.1.1"
+  }
+}
