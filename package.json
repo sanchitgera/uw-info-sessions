@@ -2,9 +2,10 @@
   "name": "session-calendar",
   "version": "1.0.0",
   "description": "Export uWaterloo info sessions to iCal format ",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "forever app.js"
   },
   "author": "Sanchit Gera",
   "license": "MIT",
