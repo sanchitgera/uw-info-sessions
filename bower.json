@@ -1,0 +1,22 @@
+{
+  "name": "session-calendar",
+  "main": "index.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/sanchitgera/uw-info-sessions",
+  "authors": [
+    "Sanchit Gera <gerasanchit@gmail.com>"
+  ],
+  "description": "Export uWaterloo info sessions to iCal format",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Bootflat": "~2.0.4",
+    "FileSaver": "*"
+  }
+}
