@@ -9,7 +9,10 @@
   "author": "Sanchit Gera",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.14.0",
+    "express": "^4.13.3",
     "icalendar": "^0.7.1",
+    "jade": "^1.11.0",
     "uwapi": "^1.1.1"
   }
 }
