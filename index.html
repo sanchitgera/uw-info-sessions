@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>UW Sessions Calendar</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.1.4/semantic.min.css" />
+  <style>
+    body {
+      background-image: url("./img/black_thread.png");
+      background-repeat: repeat-x repeat-y;
+      height: 100%;
+    }
+
+    .white {
+      color: #FFF !important;
+    }
+
+    .padding {
+      padding-top: 15px !important;
+    }
+
+    a {
+      color: #B8B8B8;
+    }
+
+    #icon {
+      box-shadow: 0 0 0 .1em rgba(255, 255, 255, .9) inset;
+    }
+
+    .main {
+      padding-top: 15%;
+      height: 90%;
+    }
+
+    form {
+      padding-top: 15px;
+    }
+
+    .main-header {
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main">
+    <div class="ui text center aligned container">
+      <h2 class="ui center yellow aligned icon header main-header">
+
+        <i class="circular yellow suitcase icon" id="icon"></i>
+
+        <div class="content">
+          UW Info Sessions Exporter
+          <div class="sub header padding white">
+            Don't forget to attend those employer info sessions again! Add the generated .ics file to your <a href="https://support.google.com/calendar/answer/37118?hl=en">Google</a>, <a href="https://support.apple.com/kb/PH11524?locale=en_US">Apple</a>            or <a href="http://windows.microsoft.com/en-ca/windows/outlook/calendar-import-vs-subscribe">Windows</a> Calendars.
+          </div>
+        </div>
+      </h2>
+
+      <form class="ui very large center aligned inverted form">
+        <div class="two fields padding">
+          <div class="field">
+            <select class="ui dropdown" id="input-term" name="input-term">
+              <option value="">Term</option>
+              <option value="fall" selected="selected">Fall</option>
+              <option value="winter">Winter</option>
+              <option value="spring">Spring</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <select class="ui dropdown" id="input-year" name="input-year">
+              <option value="">Year</option>
+              <option value="2012">2012</option>
+              <option value="2013">2013</option>
+              <option value="2014">2014</option>
+              <option value="2015" selected="selected">2015</option>
+
+            </select>
+          </div>
+
+        </div>
+
+        <div class="field">
+          <button class="ui very large inverted button" type="submit" id="submit">Go!
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="ui vertical footer segment">
+    <div class="ui center aligned white text container">
+      Copyright &copy; 2015 Sanchit Gera
+      <a href="https://www.github.com/sanchitgera/lingual"><i class="circular large github icon"></i></a>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/semantic-ui/2.1.4/semantic.min.js"></script>
+  <script src="./bower_components/FileSaver/FileSaver.min.js"></script>
+
+  <script>
+    $('#input-year').dropdown({});
+    $('#input-term').dropdown({});
+  </script>
+
+  <script>
+    // $(document).on('change', '#input-term', function() {
+    //   var term = $("#input-term").val();
+    //
+    //   fallYears = ['2012', '2013', '2014', '2015'];
+    //   winterYears = ['2012', '2013', '2014', '2015'];
+    //   springYears = ['2012', '2013', '2014', '2015'];
+    //
+    //   var yearSelect = document.getElementById('input-year');
+    //   $("#input-year").empty();
+    //
+    //   yearSelect.options[0] = new Option('Year', '');
+    //   if (term == 'fall') {
+    //     for (var i = 1; i <= fallYears.length; i++) {
+    //       yearSelect.options[yearSelect.options.length] = new Option(fallYears[i - 1], fallYears[i - 1]);
+    //     }
+    //   } else if (term == 'winter') {
+    //     for (var i = 1; i <= winterYears.length; i++) {
+    //       yearSelect.options[yearSelect.options.length] = new Option(winterYears[i - 1], winterYears[i - 1]);
+    //     }
+    //   } else {
+    //     for (var i = 1; i <= springYears.length; i++) {
+    //       yearSelect.options[yearSelect.options.length] = new Option(springYears[i - 1], springYears[i - 1]);
+    //     }
+    //   }
+    // });
+  </script>
+  <script>
+    $(function() {
+      $('#submit').click(function(e) {
+        e.preventDefault();
+        var year = $("#input-year").val();
+        var term = $("#input-term").val();
+
+        if (!term || !year) {
+          alert('You must enter a term and a year!');
+          return;
+        }
+        $("#submit").addClass('loading');
+
+        var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+        navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
+        window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;
+
+        function save(code, name) {
+          var blob = new Blob([code], {
+            type: 'text/plain'
+          });
+          if (window.saveAs) {
+            window.saveAs(blob, name);
+          } else if (navigator.saveBlob) {
+            navigator.saveBlob(blob, name);
+          } else {
+            url = URL.createObjectURL(blob);
+            var link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", name);
+            var event = document.createEvent('MouseEvents');
+            event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+            link.dispatchEvent(event);
+          }
+        }
+
+        function SaveAsFile(t, f, m) {
+          save(t, f);
+        }
+
+        var formData = {
+          'input-year': year,
+          'input-term': term
+        };
+
+        $.ajax({
+          type: 'post',
+          url: 'http://localhost:8080/sessions',
+          data: formData,
+          xhrFields: {
+            withCredentials: false
+          },
+          headers: {
+
+          },
+          complete: function() {
+            $("#submit").removeClass('loading', 'active');
+          },
+          success: function(data) {
+            SaveAsFile(data, "info-sessions.ics", "text/plain;charset=utf-8");
+          },
+          error: function() {}
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
