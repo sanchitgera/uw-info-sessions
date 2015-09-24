@@ -1,3 +1,4 @@
 node_modules
 test.ics
 bower_components
+.DS_Store
