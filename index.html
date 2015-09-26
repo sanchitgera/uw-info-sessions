@@ -179,9 +179,10 @@
           'input-term': term
         };
 
+        var serverUrl = location.protocol + '//uwinfosessions.herokuapp.com/sessions';
         $.ajax({
           type: 'post',
-          url: 'https://uwinfosessions.herokuapp.com/sessions',
+          url: serverUrl,
           data: formData,
           xhrFields: {
             withCredentials: false
