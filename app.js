@@ -4,7 +4,6 @@ var uwapi = require('uwapi')(apiKey);
 var path = require('path');
 var icalendar = require('icalendar');
 var fs = require('fs');
-var api = require('uwaterloo-api');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
