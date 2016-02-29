@@ -4,7 +4,7 @@ var uwapi = require('uwapi')(apiKey);
 var path = require('path');
 var icalendar = require('icalendar');
 var fs = require('fs');
-
+var api = require('uwaterloo-api');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
@@ -20,11 +20,8 @@ app.get('/', function(req, res) {
 app.use(express.static(__dirname));
 
 app.post('/sessions', function(req, res) {
-  console.log('hello');
   var year = req.body['input-year'];
   var term = req.body['input-term'];
-
-  console.log(req.body);
 
   var code = '1' + year.slice(-2);
 
@@ -45,14 +42,13 @@ app.listen(process.env.PORT || 8080, function() {
 });
 
 function filter(session) {
-  return (session.employer && session.employer !== 'No info sessions' && session.location);
+  return (session.employer && session.employer !== 'No info sessions' && session.building);
 }
 
 function getSessions(term, callback) {
   uwapi.termsInfosessions({
     term_id: term
   }).then(function(res, err) {
-
     var filtered = res.filter(filter);
 
     var ical = new icalendar.iCalendar();
@@ -66,7 +62,7 @@ function getSessions(term, callback) {
       var duration = (Date.parse(end) - Date.parse(start));
       event.setDate(start, duration / 1000);
 
-      event.setLocation(session.location);
+      event.setLocation(session.building.room);
 
       ical.addComponent(event);
     });
