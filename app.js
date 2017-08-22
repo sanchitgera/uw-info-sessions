@@ -6,6 +6,8 @@ var icalendar = require('icalendar');
 var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser');
+var moment = require('moment-timezone');
+
 var app = express();
 
 app.use(bodyParser.urlencoded({
@@ -57,7 +59,7 @@ function getSessions(term, callback) {
       var event = new icalendar.VEvent(session.id);
       event.setSummary(session.employer);
 
-      var date = Date.parse(session.date + ' EDT'); // uWaterloo is in EDT
+      var date = moment.tz(session.date, "America/Toronto").toDate();
       var start = new Date(session.date + ' ' + session.start_time);
       var end = new Date(session.date + ' ' + session.end_time);
       var duration = (Date.parse(end) - Date.parse(start));
