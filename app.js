@@ -59,9 +59,8 @@ function getSessions(term, callback) {
       var event = new icalendar.VEvent(session.id);
       event.setSummary(session.employer);
 
-      var date = moment.tz(session.date, "America/Toronto").toDate();
-      var start = new Date(session.date + ' ' + session.start_time);
-      var end = new Date(session.date + ' ' + session.end_time);
+      var start = moment.tz(session.date + ' ' + session.start_time, "America/Toronto").toDate();
+      var end = moment.tz(session.date + ' ' + session.end_time, "America/Toronto").toDate();
       var duration = (Date.parse(end) - Date.parse(start));
       event.setDate(start, duration / 1000);
 
