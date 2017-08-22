@@ -6,11 +6,15 @@ var icalendar = require('icalendar');
 var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser');
+var moment = require('moment-timezone');
+
 var app = express();
 
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname+'/index.html'));
@@ -55,13 +59,16 @@ function getSessions(term, callback) {
       var event = new icalendar.VEvent(session.id);
       event.setSummary(session.employer);
 
-      var date = Date.parse(session.date);
-      var start = new Date(session.date + ' ' + session.start_time);
-      var end = new Date(session.date + ' ' + session.end_time);
+      var start = moment.tz(session.date + ' ' + session.start_time, "America/Toronto").toDate();
+      var end = moment.tz(session.date + ' ' + session.end_time, "America/Toronto").toDate();
       var duration = (Date.parse(end) - Date.parse(start));
       event.setDate(start, duration / 1000);
 
-      event.setLocation(session.building.room);
+      event.setLocation(session.building.name + " " + session.building.room);
+
+      event.setDescription("Description: "+ session.description + "\n"
+        + "Audience: " + session.audience + "\n"
+        + "CECA Link: " + session.link);
 
       ical.addComponent(event);
     });
