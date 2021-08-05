@@ -4,7 +4,3 @@ Visit https://uwinfosessions.herokuapp.com
 
 This project uses the awesome [UWAPI](https://github.com/uWaterloo/api-documentation/#accessing-the-api) and its NodeJS [wrapper](https://www.npmjs.com/package/uwapi). 
 
-## Contributing 
-For feature requests or bug reports feel free to open issues [here](https://github.com/sanchitgera/uw-info-sessions/issues) 
-Pull requests are always welcome too :) 
-
